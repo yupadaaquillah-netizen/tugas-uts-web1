@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - BookStore</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- NAVBAR UTAMA -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-brand">
+                📚 <span>Book</span>Store
+            </a>
+            <ul class="nav-links">
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="stok.html">Informasi Stok/Katalog</a></li>
+                <li><a href="checkout.html">Pemesanan Buku</a></li>
+                <li><a href="tracking.html">Tracking Pengiriman</a></li>
+                <li><a href="#laporan">Laporan Pemesanan</a></li>
+                <li><a href="#history">History Transaksi</a></li>
+                <li><button type="button" class="btn-nav-logout" id="btnLogout">Keluar (Logout)</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- KONTEN UTAMA -->
+    <main class="container">
+        
+        <!-- CARD GREETING WAKTU LOKAL -->
+        <section class="greeting-card">
+            <h2 id="greetingText">Selamat Datang di BookStore!</h2>
+            <p id="greetingSubText">Sistem Informasi Pengelolaan & Pemesanan Buku Online.</p>
+        </section>
+
+        <!-- RINGKASAN DATA STATISTIK (DATA DUMMY & LOCALSTORAGE) -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Total Judul Buku</div>
+                <div class="stat-value" id="statTotalJudul">0</div>
+            </div>
+            <div class="stat-card green">
+                <div class="stat-title">Total Stok Buku Tersedia</div>
+                <div class="stat-value" id="statTotalStok">0</div>
+            </div>
+            <div class="stat-card orange">
+                <div class="stat-title">Total Pesanan Masuk</div>
+                <div class="stat-value" id="statTotalPesanan">0</div>
+            </div>
+            <div class="stat-card purple">
+                <div class="stat-title">Total Transaksi</div>
+                <div class="stat-value" id="statTotalPendapatan">Rp 0</div>
+            </div>
+        </section>
+
+        <!-- MENU NAVIGASI UTAMA -->
+        <div class="page-header">
+            <h2>Menu Navigasi</h2>
+            <p>Pilih menu di bawah ini untuk mengakses fitur aplikasi:</p>
+        </div>
+
+        <section class="menu-grid">
+            <a href="stok.html" class="menu-card">
+                <h4>1. Informasi Stok / Katalog</h4>
+                <p>Lihat daftar katalog buku yang tersedia, cari buku, dan tambahkan buku baru ke tabel stok.</p>
+            </a>
+
+            <a href="checkout.html" class="menu-card">
+                <h4>2. Pemesanan Buku (Checkout)</h4>
+                <p>Buat pesanan baru, pilih buku, hitung total harga otomatis, dan simpan order ke sistem.</p>
+            </a>
+
+            <a href="tracking.html" class="menu-card">
+                <h4>3. Tracking Pengiriman</h4>
+                <p>Lacak status pengiriman buku berdasarkan nomor Delivery Order (DO) dengan progress bar visual.</p>
+            </a>
+
+            <a href="#laporan" class="menu-card">
+                <h4>4. Laporan Pemesanan</h4>
+                <p>Lihat rekapitulasi status seluruh pesanan buku pelanggan dan rincian transaksi.</p>
+            </a>
+
+            <a href="#history" class="menu-card">
+                <h4>5. History Transaksi</h4>
+                <p>Riwayat lengkap seluruh transaksi pembelian buku yang telah dibuat pada sistem.</p>
+            </a>
+        </section>
+
+        <!-- SEKSI 4: LAPORAN PEMESANAN -->
+        <section class="card" id="laporan">
+            <h3 class="card-title">📊 Laporan Pemesanan Buku</h3>
+            <p style="margin-bottom: 15px; color: #64748b; font-size: 14px;">
+                Rekapitulasi status pesanan yang tercatat dalam sistem:
+            </p>
+            <div class="stats-grid" id="rekapStatusContainer">
+                <div class="stat-card">
+                    <div class="stat-title">Pesanan Diterima</div>
+                    <div class="stat-value" id="statusDiterima">0</div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-title">Sedang Dikemas</div>
+                    <div class="stat-value" id="statusDikemas">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Dalam Pengiriman</div>
+                    <div class="stat-value" id="statusPengiriman">0</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-title">Pesanan Terkirim</div>
+                    <div class="stat-value" id="statusTerkirim">0</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKSI 5: HISTORY TRANSAKSI -->
+        <section class="card" id="history">
+            <div class="top-bar-action">
+                <h3 class="card-title" style="margin-bottom: 0; border: none;">🕒 History Transaksi</h3>
+                <a href="checkout.html" class="btn btn-primary" style="font-size: 13px;">+ Buat Pesanan Baru</a>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table" id="tabelHistory">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>No. Delivery Order (DO)</th>
+                            <th>Tanggal</th>
+                            <th>Nama Pemesan</th>
+                            <th>Buku</th>
+                            <th>Jumlah</th>
+                            <th>Total Bayar</th>
+                            <th>Ekspedisi</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelHistoryBody">
+                        <!-- Dimuat otomatis via js/dashboard.js -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 <span>BookStore</span> - Tugas UTS Pemrograman Web 1. Dibuat dengan HTML, CSS & Vanilla JavaScript.</p>
+    </footer>
+
+    <!-- SCRIPT DATA & DASHBOARD -->
+    <script src="js/data.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
+

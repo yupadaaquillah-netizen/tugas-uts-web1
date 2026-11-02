@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi Stok & Katalog Buku - BookStore</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- NAVBAR UTAMA -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-brand">
+                📚 <span>Book</span>Store
+            </a>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="stok.html" class="active">Informasi Stok/Katalog</a></li>
+                <li><a href="checkout.html">Pemesanan Buku</a></li>
+                <li><a href="tracking.html">Tracking Pengiriman</a></li>
+                <li><button type="button" class="btn-nav-logout" id="btnLogout">Keluar (Logout)</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- KONTEN UTAMA -->
+    <main class="container">
+        
+        <!-- TOP BAR & KEMBALI KE DASHBOARD -->
+        <div class="top-bar-action">
+            <a href="dashboard.html" class="btn-back">← Kembali ke Dashboard</a>
+            <span style="font-size: 13px; color: #64748b;">Halaman: Informasi Stok & Katalog</span>
+        </div>
+
+        <div class="page-header">
+            <h1>Katalog & Informasi Stok Buku</h1>
+            <p>Kelola daftar buku, pantau ketersediaan stok, dan tambahkan koleksi buku baru.</p>
+        </div>
+
+        <!-- STATUS PEMETAAN GAMBAR SAMPUL BUKU -->
+        <section class="mapping-status-card" id="seksiStatusPemetaan">
+            <div class="mapping-status-header">
+                <h4>🖼️ Status Pemetaan Gambar Sampul Buku</h4>
+                <div id="badgeStatusSummary" style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    <!-- Diisi otomatis via JS -->
+                </div>
+            </div>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 8px;">
+                Sistem otomatis mencocokkan judul buku di katalog dengan nama file gambar pada folder <code>assets/</code> (toleran huruf besar/kecil, spasi, tanda baca, dan ekstensi file).
+            </p>
+            
+            <div class="mapping-list-grid">
+                <!-- Daftar Buku yang Belum Memiliki Gambar -->
+                <div class="mapping-list-box">
+                    <h5>
+                        <span>⚠️ Buku Belum Ada Gambar Sampul</span>
+                        <span class="badge badge-warning" id="countBukuBelumCocok">0</span>
+                    </h5>
+                    <ul id="listBukuBelumCocok">
+                        <!-- Diisi otomatis via JS -->
+                    </ul>
+                </div>
+
+                <!-- Daftar File Gambar yang Belum Dicocokkan ke Judul Buku -->
+                <div class="mapping-list-box">
+                    <h5>
+                        <span>📂 File Gambar Belum Dicocokkan</span>
+                        <span class="badge badge-info" id="countGambarBelumCocok">0</span>
+                    </h5>
+                    <ul id="listGambarBelumCocok">
+                        <!-- Diisi otomatis via JS -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tombol Bantuan Uji Coba Cepat untuk Dosen / Penguji -->
+            <div style="margin-top: 12px; display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap;">
+                <button type="button" class="btn btn-outline" id="btnSyncBukuDosen" style="font-size: 12px; padding: 6px 12px;">
+                    ✨ Uji Coba: Masukkan 5 Judul Buku Sesuai Gambar Dosen
+                </button>
+            </div>
+        </section>
+
+        <!-- FORM TAMBAH BUKU BARU -->
+        <section class="card">
+            <h3 class="card-title">➕ Tambah Buku Baru ke Katalog</h3>
+            <form id="formTambahBuku">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inputKode">ID / Kode Buku</label>
+                        <input type="text" id="inputKode" class="form-control" placeholder="Contoh: BK009" required>
+                    </div>
+                    <div class="form-group" style="flex: 2;">
+                        <label for="inputJudul">Judul Buku</label>
+                        <input type="text" id="inputJudul" class="form-control" placeholder="Masukkan judul buku lengkap" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inputPenulis">Nama Penulis</label>
+                        <input type="text" id="inputPenulis" class="form-control" placeholder="Nama penulis / pengarang" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputHarga">Harga Satuan (Rp)</label>
+                        <input type="number" id="inputHarga" class="form-control" placeholder="Contoh: 85000" min="1000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputStok">Jumlah Stok</label>
+                        <input type="number" id="inputStok" class="form-control" placeholder="Contoh: 20" min="0" required>
+                    </div>
+                </div>
+
+                <div style="text-align: right; margin-top: 10px;">
+                    <button type="reset" class="btn btn-secondary">Reset Form</button>
+                    <button type="submit" class="btn btn-success" id="btnSimpanBuku">Simpan Buku ke Tabel</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- PENCARIAN & TABEL KATALOG BUKU -->
+        <section class="card">
+            <div class="top-bar-action">
+                <h3 class="card-title" style="margin-bottom: 0; border: none;">📋 Daftar Katalog Buku</h3>
+                <span id="labelTotalBuku" class="badge badge-info" style="font-size: 13px;">0 Buku Terdaftar</span>
+            </div>
+
+            <!-- Fitur Pencarian Buku Sederhana -->
+            <div class="search-wrapper" style="margin-top: 15px;">
+                <input type="text" id="inputCari" class="form-control" placeholder="Ketik judul buku atau nama penulis untuk mencari...">
+                <button type="button" class="btn btn-primary" id="btnCari">Cari Buku</button>
+                <button type="button" class="btn btn-outline" id="btnResetCari">Tampilkan Semua</button>
+            </div>
+
+            <!-- Tabel Katalog -->
+            <div class="table-responsive">
+                <table class="table" id="tabelKatalog">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px; text-align: center;">Sampul</th>
+                            <th style="width: 100px;">ID Buku</th>
+                            <th>Judul Buku</th>
+                            <th>Penulis</th>
+                            <th style="width: 150px;">Harga Satuan</th>
+                            <th style="width: 100px;">Stok</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelKatalogBody">
+                        <!-- Dimuat dan ditambahkan secara dinamis lewat DOM (js/stok.js) -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 <span>BookStore</span> - Tugas UTS Pemrograman Web 1. Dibuat dengan HTML, CSS & Vanilla JavaScript.</p>
+    </footer>
+
+    <!-- SCRIPT DATA & STOK LOGIC -->
+    <script src="js/data.js"></script>
+    <script src="js/stok.js"></script>
+</body>
+</html>

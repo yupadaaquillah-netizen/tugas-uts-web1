@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemesanan Buku (Checkout) - BookStore</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR UTAMA -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-brand">
+                📚 <span>Book</span>Store
+            </a>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="stok.html">Informasi Stok/Katalog</a></li>
+                <li><a href="checkout.html" class="active">Pemesanan Buku</a></li>
+                <li><a href="tracking.html">Tracking Pengiriman</a></li>
+                <li><button type="button" class="btn-nav-logout" id="btnLogout">Keluar (Logout)</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- KONTEN UTAMA -->
+    <main class="container">
+
+        <!-- TOP BAR & KEMBALI KE DASHBOARD -->
+        <div class="top-bar-action">
+            <a href="dashboard.html" class="btn-back">← Kembali ke Dashboard</a>
+            <span style="font-size: 13px; color: #64748b;">Halaman: Form Pemesanan Buku</span>
+        </div>
+
+        <div class="page-header">
+            <h1>Form Pemesanan Buku</h1>
+            <p>Silakan lengkapi formulir di bawah ini untuk melakukan pemesanan buku.</p>
+        </div>
+
+        <!-- FORM PEMESANAN / CHECKOUT -->
+        <section class="card">
+            <h3 class="card-title">📝 Data Pemesan & Pembelian</h3>
+
+            <form id="formCheckout">
+                <!-- Data Pemesan -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="namaPemesan">Nama Lengkap Pemesan *</label>
+                        <input type="text" id="namaPemesan" class="form-control" placeholder="Masukkan nama lengkap"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailPemesan">Alamat Email *</label>
+                        <input type="email" id="emailPemesan" class="form-control" placeholder="contoh: nama@email.com"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teleponPemesan">Nomor Telepon / WhatsApp *</label>
+                        <input type="tel" id="teleponPemesan" class="form-control" placeholder="contoh: 081234567890"
+                            required>
+                    </div>
+                </div>
+
+                <!-- Pilihan Buku & Jumlah -->
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label for="pilihBuku">Pilih Buku dari Katalog *</label>
+                        <select id="pilihBuku" class="form-control" required>
+                            <option value="">-- Pilih Judul Buku --</option>
+                            <!-- Dimuat dinamis dari data.js -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="hargaSatuan">Harga Satuan</label>
+                        <input type="text" id="hargaSatuan" class="form-control" value="Rp 0" readonly
+                            style="background-color: #f1f5f9; font-weight: bold;">
+                    </div>
+                    <div class="form-group" style="max-width: 140px;">
+                        <label for="jumlahBuku">Jumlah (Qty) *</label>
+                        <input type="number" id="jumlahBuku" class="form-control" min="1" value="1" required>
+                    </div>
+                </div>
+
+                <!-- Alamat & Ekspedisi -->
+                <div class="form-group">
+                    <label for="alamatPengiriman">Alamat Lengkap Pengiriman *</label>
+                    <textarea id="alamatPengiriman" class="form-control" rows="3"
+                        placeholder="Nama Jalan, Nomor Rumah, RT/RW, Kelurahan, Kecamatan, Kota/Kabupaten, Kode Pos"
+                        required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pilihEkspedisi">Jasa Ekspedisi Pengiriman *</label>
+                        <select id="pilihEkspedisi" class="form-control" required>
+                            <option value="JNE Express">JNE Express (Reguler 2-3 Hari)</option>
+                            <option value="SiCepat Express">SiCepat Express (Best / 1 Hari)</option>
+                            <option value="J&T Express">J&T Express (Standard)</option>
+                            <option value="POS Indonesia">POS Indonesia (Kilat Khusus)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="metodePembayaran">Metode Pembayaran *</label>
+                        <select id="metodePembayaran" class="form-control" required>
+                            <option value="Transfer Bank BCA">Transfer Bank BCA</option>
+                            <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
+                            <option value="QRIS / E-Wallet (GoPay, OVO, Dana)">QRIS / E-Wallet (GoPay, OVO, Dana)
+                            </option>
+                            <option value="COD (Bayar di Tempat)">COD (Bayar di Tempat)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Box Total Harga Otomatis -->
+                <div class="detail-box" style="margin-bottom: 20px; background-color: #eff6ff; border-color: #bfdbfe;">
+                    <div class="detail-row" style="font-size: 16px;">
+                        <span class="label" style="color: #1e3a8a; font-weight: bold;">TOTAL PEMBAYARAN:</span>
+                        <span class="value" id="displayTotalHarga" style="color: #1a56db; font-size: 20px;">Rp 0</span>
+                    </div>
+                </div>
+
+                <!-- Tombol Aksi -->
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="reset" class="btn btn-secondary" id="btnResetOrder">Reset Form</button>
+                    <button type="submit" class="btn btn-primary" id="btnBuatPesanan"
+                        style="font-size: 15px; padding: 10px 24px;">
+                        🛒 Buat Pesanan Sekarang
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- SEKSI INFORMASI PESANAN BERHASIL (STRUK / NOTA PEMESANAN) -->
+        <section class="card" id="seksiNotaPesanan" style="display: none; border-top: 4px solid #16a34a;">
+            <div class="top-bar-action">
+                <h3 class="card-title" style="margin-bottom: 0; border: none; color: #166534;">
+                    ✅ Bukti Pemesanan Berhasil Dibuat
+                </h3>
+                <span class="badge badge-success">Status: Pesanan Diterima</span>
+            </div>
+
+            <p style="color: #475569; font-size: 14px; margin-bottom: 15px;">
+                Terima kasih, pesanan Anda telah tersimpan. Catat nomor <strong>Delivery Order (DO)</strong> Anda di
+                bawah ini untuk melacak proses pengiriman:
+            </p>
+
+            <div class="detail-box" id="notaDetail">
+                <div class="detail-row">
+                    <span class="label">Nomor Delivery Order (DO):</span>
+                    <span class="value" id="notaDO" style="color: #1a56db; font-size: 16px;">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Tanggal Pemesanan:</span>
+                    <span class="value" id="notaTanggal">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Nama Pemesan:</span>
+                    <span class="value" id="notaNama">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Email & Telepon:</span>
+                    <span class="value" id="notaKontak">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Buku yang Dipesan:</span>
+                    <span class="value" id="notaBuku">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Jumlah Pembelian:</span>
+                    <span class="value" id="notaJumlah">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Ekspedisi:</span>
+                    <span class="value" id="notaEkspedisi">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Metode Pembayaran:</span>
+                    <span class="value" id="notaMetode">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Alamat Pengiriman:</span>
+                    <span class="value" id="notaAlamat" style="max-width: 50%;"> -</span>
+                </div>
+                <div class="detail-row" style="border-top: 2px solid #cbd5e1; margin-top: 6px; padding-top: 10px;">
+                    <span class="label" style="font-size: 16px; color: #0f172a;">Total Pembayaran:</span>
+                    <span class="value" id="notaTotal" style="color: #16a34a; font-size: 18px;">Rp 0</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
+                <button type="button" class="btn btn-secondary" onclick="window.print()">Cetak Nota</button>
+                <a href="tracking.html" id="linkLacakNota" class="btn btn-primary">🔍 Lacak Pesanan Ini Sekarang</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 <span>BookStore</span> - Tugas UTS Pemrograman Web 1. Dibuat dengan HTML, CSS & Vanilla
+            JavaScript.</p>
+    </footer>
+
+    <!-- SCRIPT DATA & CHECKOUT LOGIC -->
+    <script src="js/data.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+
+</html>

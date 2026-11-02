@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - BookStore</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-body">
+
+    <div class="login-card">
+        <div class="login-header">
+            <h1>BookStore</h1>
+            <p>Sistem Informasi Penjualan Buku Online</p>
+        </div>
+
+        <form id="formLogin">
+            <div class="form-group">
+                <label for="email">Alamat Email</label>
+                <input type="email" id="email" class="form-control" placeholder="contoh: admin@bookstore.com" required autocomplete="email">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Masukkan password" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" id="btnLogin">Masuk (Login)</button>
+        </form>
+
+        <div class="login-actions">
+            <button type="button" id="btnBukaLupaPassword">Lupa Password?</button>
+            <button type="button" id="btnBukaDaftar">Daftar Akun Baru</button>
+        </div>
+
+        <!-- Akun Dummy Pengujian -->
+        <div class="demo-account-box">
+            <strong>Akun Dummy untuk Login:</strong>
+            1. Email: <code>admin@bookstore.com</code> | Pass: <code>admin123</code><br>
+            2. Email: <code>mahasiswa@bookstore.com</code> | Pass: <code>uts123</code><br>
+            3. Email: <code>budi@gmail.com</code> | Pass: <code>budi123</code>
+        </div>
+    </div>
+
+    <!-- MODAL LUPA PASSWORD -->
+    <div class="modal-overlay" id="modalLupaPassword">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Reset Password</h3>
+                <button type="button" class="modal-close" id="btnTutupLupaPassword">&times;</button>
+            </div>
+            <form id="formLupaPassword">
+                <div class="form-group">
+                    <label for="lupaEmail">Masukkan Email Terdaftar</label>
+                    <input type="email" id="lupaEmail" class="form-control" placeholder="email@contoh.com" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Kirim Permintaan Reset</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DAFTAR AKUN BARU -->
+    <div class="modal-overlay" id="modalDaftar">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Pendaftaran Akun Baru</h3>
+                <button type="button" class="modal-close" id="btnTutupDaftar">&times;</button>
+            </div>
+            <form id="formDaftar">
+                <div class="form-group">
+                    <label for="daftarNama">Nama Lengkap</label>
+                    <input type="text" id="daftarNama" class="form-control" placeholder="Nama Anda" required>
+                </div>
+                <div class="form-group">
+                    <label for="daftarEmail">Alamat Email</label>
+                    <input type="email" id="daftarEmail" class="form-control" placeholder="email@contoh.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="daftarPassword">Password</label>
+                    <input type="password" id="daftarPassword" class="form-control" placeholder="Minimal 4 karakter" required>
+                </div>
+                <div class="form-group">
+                    <label for="daftarKonfirmasi">Konfirmasi Password</label>
+                    <input type="password" id="daftarKonfirmasi" class="form-control" placeholder="Ulangi password" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-block">Daftar Sekarang</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script Data & Login Logic -->
+    <script src="js/data.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>
+

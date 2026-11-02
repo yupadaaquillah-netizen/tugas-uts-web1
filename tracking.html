@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking Pengiriman - BookStore</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- NAVBAR UTAMA -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-brand">
+                📚 <span>Book</span>Store
+            </a>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="stok.html">Informasi Stok/Katalog</a></li>
+                <li><a href="checkout.html">Pemesanan Buku</a></li>
+                <li><a href="tracking.html" class="active">Tracking Pengiriman</a></li>
+                <li><button type="button" class="btn-nav-logout" id="btnLogout">Keluar (Logout)</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- KONTEN UTAMA -->
+    <main class="container">
+        
+        <!-- TOP BAR & KEMBALI KE DASHBOARD -->
+        <div class="top-bar-action">
+            <a href="dashboard.html" class="btn-back">← Kembali ke Dashboard</a>
+            <span style="font-size: 13px; color: #64748b;">Halaman: Pelacakan Pengiriman</span>
+        </div>
+
+        <div class="page-header">
+            <h1>Tracking Pengiriman Buku</h1>
+            <p>Masukkan nomor Delivery Order (DO) untuk memeriksa proses dan posisi pengiriman pesanan Anda.</p>
+        </div>
+
+        <!-- FORM PENCARIAN NOMOR DO -->
+        <section class="card">
+            <h3 class="card-title">🔍 Cek Status Pengiriman</h3>
+            <form id="formTracking">
+                <div class="search-wrapper">
+                    <input type="text" id="inputNoDO" class="form-control" placeholder="Contoh: DO-20261101-001" required>
+                    <button type="submit" class="btn btn-primary" id="btnCariDO">Lacak Pesanan</button>
+                </div>
+            </form>
+
+            <!-- Box Bantuan DO untuk Pengujian Mahasiswa/Dosen -->
+            <div class="demo-account-box" style="margin-top: 15px;">
+                <strong>💡 Contoh Nomor DO yang Tersedia untuk Pengujian:</strong>
+                <span id="listContohDO">
+                    <!-- Dimuat dinamis via js/tracking.js -->
+                </span>
+            </div>
+        </section>
+
+        <!-- HASIL TRACKING PENGIRIMAN -->
+        <section class="card" id="hasilTracking" style="display: none;">
+            <div class="top-bar-action">
+                <h3 class="card-title" style="margin-bottom: 0; border: none; color: #1a56db;">
+                    📦 Detail Pengiriman Pesanan
+                </h3>
+                <span class="badge badge-info" id="badgeStatusTrack">-</span>
+            </div>
+
+            <!-- PROGRESS BAR VISUAL SEDERHANA -->
+            <div class="tracking-stepper" id="stepperTracking">
+                <div class="step" id="step1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Pesanan Diterima</div>
+                </div>
+                <div class="step" id="step2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Sedang Dikemas</div>
+                </div>
+                <div class="step" id="step3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Dalam Pengiriman</div>
+                </div>
+                <div class="step" id="step4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Pesanan Terkirim</div>
+                </div>
+            </div>
+
+            <!-- RINCIAN INFORMASI TRACKING SESUAI INSTRUKSI -->
+            <div class="detail-box">
+                <div class="detail-row">
+                    <span class="label">Nomor Delivery Order (DO):</span>
+                    <span class="value" id="trackDO" style="color: #1a56db;">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Nama Pemesan:</span>
+                    <span class="value" id="trackNama">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Nama Ekspedisi:</span>
+                    <span class="value" id="trackEkspedisi">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Tanggal Pengiriman:</span>
+                    <span class="value" id="trackTanggal">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Jenis Paket:</span>
+                    <span class="value" id="trackJenisPaket">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Buku & Jumlah:</span>
+                    <span class="value" id="trackBuku">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Alamat Tujuan:</span>
+                    <span class="value" id="trackAlamat" style="max-width: 50%;">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Total Pembayaran:</span>
+                    <span class="value" id="trackTotal" style="color: #16a34a; font-size: 16px;">-</span>
+                </div>
+                <div class="detail-row" style="background-color: #f1f5f9; padding: 10px; margin-top: 5px; border-radius: 4px;">
+                    <span class="label" style="font-weight: bold; color: #1e293b;">Status Pengiriman Saat Ini:</span>
+                    <span class="value" id="trackStatus" style="font-size: 15px; color: #1a56db;">-</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 <span>BookStore</span> - Tugas UTS Pemrograman Web 1. Dibuat dengan HTML, CSS & Vanilla JavaScript.</p>
+    </footer>
+
+    <!-- SCRIPT DATA & TRACKING LOGIC -->
+    <script src="js/data.js"></script>
+    <script src="js/tracking.js"></script>
+</body>
+</html>
+
